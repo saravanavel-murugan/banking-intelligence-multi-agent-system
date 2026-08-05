@@ -55,8 +55,10 @@ Apply escalation criteria (see below)
 Assign priority level: LOW, MEDIUM, HIGH, CRITICAL
 Route to appropriate specialist team
 Set SLA targets
-Task Flow & Process
-┌──────────────────┐│ Customer Query │└────────┬─────────┘ │ ▼┌──────────────────────────────┐│ Agent 1: Intent ││ Classification ││ • Extract intent & entities ││ • Score urgency ││ • Detect emotions │└────────┬─────────────────────┘ │ ▼┌──────────────────────────────┐│ Agent 2: Policy ││ Reasoning ││ • Apply regulations ││ • Assess risk ││ • Identify fraud patterns │└────────┬─────────────────────┘ │ ▼┌──────────────────────────────┐│ Agent 3: Response ││ Drafting ││ • Craft customer message ││ • Provide next steps ││ • Set expectations │└────────┬─────────────────────┘ │ ▼┌──────────────────────────────┐│ Agent 4: Escalation ││ Decision ││ • Evaluate all inputs ││ • Apply escalation rules ││ • Route & prioritize │└────────┬─────────────────────┘ │ ▼┌──────────────────────────────┐│ Decision: AUTO_RESOLVE or ││ ESCALATE to Human Specialist │└──────────────────────────────┘
+
+**Task Flow & Process**
+<img width="207" height="670" alt="image" src="https://github.com/user-attachments/assets/386789e8-31a1-40a8-9b67-27458f210a44" />
+
 
 **Process Type:**
 Sequential (CrewAI Process.sequential)

@@ -247,6 +247,9 @@ Link to existing customer relationship management systems
 Real-time Fraud Models:
 Enhance detection with ML-based pattern recognition
 
+**How to run this multi agent bangling intelligence customer support system**
+Please Refer QUICK_TEST_GUIDE.txt
+
 **Conclusion**
 This multi-agent architecture demonstrates a practical approach to intelligent bankingautomation that balances efficiency with safety. By combining specialized AI agents with
 explicit escalation logic, the system handles routine queries automatically while ensuringcomplex or high-risk situations receive appropriate human attention. The sequentialworkflow ensures informed decision-making at each stage, and the transparent criteriameet banking industry requirements for auditability and compliance.

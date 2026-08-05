@@ -1,0 +1,417 @@
+================================================================================
+                    QUICK TEST GUIDE (5 Minutes Setup)
+           Banking Multi-Agent System - Step-by-Step Testing
+================================================================================
+
+🎯 GOAL: Get the system running and see results in 30 minutes
+
+================================================================================
+                        PART 1: SETUP (10 minutes)
+================================================================================
+
+STEP 1: Check Python Installation (1 minute)
+---------------------------------------------
+Open PowerShell in your project folder:
+
+    python --version
+
+Expected: Python 3.8 or higher
+
+If not installed: Download from python.org
+
+
+STEP 2: Install Required Packages (5 minutes)
+----------------------------------------------
+In PowerShell, run:
+
+    pip install -r requirements.txt
+
+You'll see installation progress for:
+✓ crewai
+✓ langchain-openai  
+✓ jupyter
+✓ python-dotenv
+✓ openai
+
+Wait for: "Successfully installed..."
+
+
+STEP 3: Get OpenAI API Key (3 minutes)
+---------------------------------------
+1. Go to: https://platform.openai.com/api-keys
+2. Sign up / Log in
+3. Click "Create new secret key"
+4. Copy the key (starts with sk-...)
+5. Add payment method (Settings → Billing)
+
+⚠️ COST: About $1-5 for full testing
+
+
+STEP 4: Create .env File (1 minute)
+------------------------------------
+In PowerShell:
+
+    Copy-Item .env.example .env
+
+Open .env in Notepad and replace:
+
+    OPENAI_API_KEY=your-openai-api-key-here
+
+With your actual key:
+
+    OPENAI_API_KEY=sk-proj-abc123xyz...
+
+Save and close.
+
+================================================================================
+                        PART 2: RUNNING (15 minutes)
+================================================================================
+
+STEP 5: Start Jupyter Notebook (1 minute)
+------------------------------------------
+In PowerShell:
+
+    jupyter notebook
+
+Browser will open automatically showing file list.
+
+
+STEP 6: Open the Right Notebook (1 minute)
+-------------------------------------------
+Click on:
+
+    ✅ banking_system_fresh.ipynb
+
+DO NOT use these (they have JSON errors):
+    ❌ banking_multiagent_system.ipynb
+    ❌ banking_multiagent_system1.json.ipynb
+
+
+STEP 7: Run All Cells (13 minutes)
+-----------------------------------
+In the notebook:
+
+    1. Click "Cell" menu
+    2. Select "Run All"
+    
+    OR press: Shift + Enter on each cell
+
+You'll see:
+┌─────────────────────────────────────┐
+│ ✓ Environment configured            │
+│ ✓ Language model initialized        │
+│ ✓ All 4 agents created              │
+│ ✓ Tasks defined                     │
+│ ✓ Processing 10 test queries...     │
+└─────────────────────────────────────┘
+
+Expected time: 10-15 minutes for all queries
+
+================================================================================
+                    PART 3: UNDERSTANDING OUTPUT (5 minutes)
+================================================================================
+
+WHAT YOU'LL SEE:
+
+For each query, 4 agents process sequentially:
+
+Query Example: "I didn't make a $2,300 international purchase!"
+
+┌──────────────────────────────────────────────────────┐
+│ AGENT 1: Intent Classification                       │
+├──────────────────────────────────────────────────────┤
+│ ✓ Intent: fraud_report                               │
+│ ✓ Urgency: 9/10                                      │
+│ ✓ Entities: $2,300, international, purchase          │
+│ ✓ Emotion: distressed, urgent                        │
+└──────────────────────────────────────────────────────┘
+           ↓
+┌──────────────────────────────────────────────────────┐
+│ AGENT 2: Policy & Compliance                         │
+├──────────────────────────────────────────────────────┤
+│ ✓ Risk: HIGH                                         │
+│ ✓ Fraud indicators: international, unrecognized      │
+│ ✓ Policy: fraud_protection required                  │
+│ ✓ Action: immediate card freeze                      │
+└──────────────────────────────────────────────────────┘
+           ↓
+┌──────────────────────────────────────────────────────┐
+│ AGENT 3: Response Drafting                           │
+├──────────────────────────────────────────────────────┤
+│ ✓ Tone: reassuring                                   │
+│ ✓ Message: "We take fraud seriously..."             │
+│ ✓ Next steps: Card secured, specialist will call    │
+│ ✓ Timeline: 2 hours                                  │
+└──────────────────────────────────────────────────────┘
+           ↓
+┌──────────────────────────────────────────────────────┐
+│ AGENT 4: Escalation Decision                         │
+├──────────────────────────────────────────────────────┤
+│ ✓ DECISION: ESCALATE                                 │
+│ ✓ Priority: CRITICAL                                 │
+│ ✓ Routing: fraud_team                                │
+│ ✓ SLA: 2 hours                                       │
+│ ✓ Triggers: urgency≥8, fraud_indicators              │
+└──────────────────────────────────────────────────────┘
+
+================================================================================
+                    EXPECTED RESULTS FOR 10 QUERIES
+================================================================================
+
+Query 1: "Transaction for $45.99 from Amazon"
+Result: ✅ AUTO_RESOLVE (routine inquiry)
+
+Query 2: "What's my account balance?"
+Result: ✅ AUTO_RESOLVE (simple request)
+
+Query 3: "Activate my new credit card"
+Result: ✅ AUTO_RESOLVE (standard procedure)
+
+Query 4: "$1,500 payment failed"
+Result: ⚠️ ESCALATE or AUTO_RESOLVE (moderate risk)
+
+Query 5: "Personal loan for $25,000"
+Result: ⚠️ ESCALATE or AUTO_RESOLVE (depends on details)
+
+Query 6: "$2,300 international purchase - might be stolen!"
+Result: 🚨 ESCALATE to fraud_team (CRITICAL)
+
+Query 7: "3 failed payments totaling $5,000"
+Result: 🚨 ESCALATE (HIGH priority)
+
+Query 8: "Multiple small transactions from unknown stores"
+Result: 🚨 ESCALATE to fraud_team (suspicious pattern)
+
+Query 9: "$50,000 wire blocked - urgent!"
+Result: 🚨 ESCALATE to account_manager (CRITICAL)
+
+Query 10: "Can't access account, urgent bills due!"
+Result: 🚨 ESCALATE (HIGH priority)
+
+================================================================================
+                    TESTING YOUR OWN QUERIES
+================================================================================
+
+After the 10 test queries complete, scroll to Section 10:
+
+Edit this cell:
+
+    custom_query = "YOUR QUESTION HERE"
+    
+    result = process_customer_query(custom_query)
+    print(result['result'])
+
+Press Shift+Enter to run.
+
+Try these examples:
+
+✅ Should AUTO_RESOLVE:
+    "What are your branch hours?"
+    "How do I set up online banking?"
+    "Explain overdraft protection"
+
+🚨 Should ESCALATE:
+    "Someone hacked my account and withdrew $5,000!"
+    "Urgent: Block my card, I lost my wallet!"
+    "I need to cancel a $100,000 wire transfer now!"
+
+================================================================================
+                        TIMING BREAKDOWN
+================================================================================
+
+Setup Phase:
+  Install packages ............. 5 min
+  Get API key .................. 3 min
+  Configure .env ............... 1 min
+  Start Jupyter ................ 1 min
+  TOTAL SETUP .................. 10 min
+
+Execution Phase:
+  Environment setup ............ 30 sec
+  Agent creation ............... 30 sec
+  Processing query 1 ........... 40 sec
+  Processing query 2 ........... 40 sec
+  ... (10 queries total) ....... 8 min
+  TOTAL EXECUTION .............. 10 min
+
+Analysis Phase:
+  Review results ............... 5 min
+  Test custom queries .......... 5 min
+  TOTAL ANALYSIS ............... 10 min
+
+GRAND TOTAL: 30 minutes
+
+================================================================================
+                        COMMON ISSUES & FIXES
+================================================================================
+
+❌ Problem: "ModuleNotFoundError: No module named 'crewai'"
+✅ Solution: Run `pip install -r requirements.txt`
+
+❌ Problem: "OPENAI_API_KEY not found"
+✅ Solution: 
+   1. Check .env file exists
+   2. Verify no typos in API key
+   3. Restart Jupyter kernel
+
+❌ Problem: "AuthenticationError: Incorrect API key"
+✅ Solution:
+   1. Get new key from platform.openai.com
+   2. Update .env file
+   3. Kernel → Restart in Jupyter
+
+❌ Problem: "You exceeded your quota"
+✅ Solution:
+   1. Add payment method at platform.openai.com
+   2. Check billing settings
+   3. Verify account has credit
+
+❌ Problem: Notebook runs very slowly
+✅ Solution:
+   1. Check internet connection
+   2. Try off-peak hours
+   3. Consider using gpt-3.5-turbo (faster, cheaper)
+
+❌ Problem: Python not found
+✅ Solution:
+   1. Install from python.org
+   2. Check "Add to PATH" during install
+   3. Restart PowerShell
+
+================================================================================
+                        VALIDATION CHECKLIST
+================================================================================
+
+After running, verify:
+
+□ All imports successful (no red error messages)
+□ API key loaded (✓ Environment configured)
+□ All 4 agents created
+□ 10 queries processed
+□ Routine queries → AUTO_RESOLVE
+□ Fraud cases → ESCALATE with CRITICAL priority
+□ Results make sense logically
+□ Processing time < 1 minute per query
+
+================================================================================
+                        PERFORMANCE METRICS
+================================================================================
+
+Per Query Processing Time:
+  Agent 1 (Intent) ............ 8-12 sec
+  Agent 2 (Policy) ............ 10-15 sec
+  Agent 3 (Response) .......... 8-12 sec
+  Agent 4 (Escalation) ........ 8-12 sec
+  TOTAL per query ............. 35-50 sec
+
+Full Test Suite (10 queries):
+  Expected time ............... 6-10 min
+  Typical cost ................ $0.50-$2.00
+
+Custom Query Testing:
+  Time per query .............. 40-60 sec
+  Recommended test count ...... 5-10 queries
+
+================================================================================
+                        WHAT TO SCREENSHOT
+================================================================================
+
+For documentation/submission:
+
+1. ✅ Environment setup success message
+2. ✅ All 4 agents created confirmation
+3. ✅ One complete query showing all 4 agents
+4. ✅ AUTO_RESOLVE example (query 1 or 2)
+5. ✅ ESCALATE example (query 6 or 9)
+6. ✅ Final results summary
+7. ✅ Your custom query test result
+
+================================================================================
+                        AFTER TESTING
+================================================================================
+
+Save Your Results:
+
+Add this cell at the end of notebook:
+
+    import json
+    
+    with open('test_results.json', 'w') as f:
+        json.dump(all_results, f, indent=2)
+    
+    print("✓ Results saved!")
+
+Stop Jupyter:
+
+    In PowerShell: Ctrl+C
+    Or close the terminal
+
+Check API Usage:
+
+    Visit: https://platform.openai.com/usage
+    Review cost and usage statistics
+
+================================================================================
+                        CUSTOMIZATION IDEAS
+================================================================================
+
+Try These Modifications:
+
+1. Change Urgency Threshold:
+   In escalation task, change "≥ 8" to "≥ 7"
+   
+2. Adjust Transaction Limit:
+   Change "$10,000" to "$5,000" for stricter escalation
+   
+3. Add New Agent:
+   Create a 5th agent for sentiment analysis
+   
+4. Modify Routing:
+   Add new routing destinations (legal_team, etc.)
+   
+5. Change Model:
+   Use "gpt-3.5-turbo" instead of "gpt-4" (faster/cheaper)
+
+After changes:
+  1. Run modified cells
+  2. Re-run test queries
+  3. Compare results
+
+================================================================================
+                        KEY TAKEAWAYS
+================================================================================
+
+✅ Sequential workflow ensures complete context at each stage
+✅ Each agent specializes in one domain (separation of concerns)
+✅ Explicit escalation criteria provide transparency
+✅ System handles routine queries automatically
+✅ High-risk cases always get human attention
+✅ Clear audit trail for compliance
+✅ Modular design enables easy updates
+
+================================================================================
+                        FINAL CHECKLIST
+================================================================================
+
+Before considering testing complete:
+
+□ Installed all dependencies
+□ Configured API key correctly
+□ Ran all 10 test queries successfully
+□ Reviewed each query result
+□ Tested at least 3 custom queries
+□ Took screenshots of key results
+□ Saved results to file
+□ Documented any unexpected behavior
+□ Checked API usage/costs
+□ Understood escalation logic
+
+================================================================================
+
+                    🎉 YOU'RE READY TO TEST! 🎉
+
+                Start with: jupyter notebook
+                Open: banking_system_fresh.ipynb
+                Run: Cell → Run All
+
+================================================================================
